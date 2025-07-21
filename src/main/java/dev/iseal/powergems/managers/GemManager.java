@@ -183,7 +183,7 @@ public class GemManager implements Dumpable {
      * @return An ItemStack representing the created gem.
      */
     public ItemStack createGem(int gemInt) {
-        return generateItemStack(gemInt, 1);
+        return generateItemStack(gemInt, gcm.getGemFirstLoginLevel());
     }
 
     /**
@@ -214,7 +214,7 @@ public class GemManager implements Dumpable {
             l.warning("You can try to turn up \"gemCreationAttempts\" in the config to fix this issue.");
             return null;
         }
-        return generateItemStack(random, 1);
+        return generateItemStack(random, gcm.getGemFirstLoginLevel());
     }
 
     /**
