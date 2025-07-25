@@ -203,6 +203,16 @@ public class GemManager implements Dumpable {
      * @return An ItemStack representing the created gem.
      */
     public ItemStack createGem() {
+        return createGemWithLevel(gcm.getGemFirstLoginLevel());
+    }
+
+    /**
+     * Creates a random gem with the specified level.
+     *
+     * @param gemLvl  The level of the gem.
+     * @return An ItemStack representing the created gem.
+     */
+    public ItemStack createGemWithLevel(int gemLvl) {
         int random = rand.nextInt(SingletonManager.TOTAL_GEM_AMOUNT);
         int repeating = 0;
         while (!agcm.isGemActive(lookUpName(random)) && repeating < gcm.getGemCreationAttempts()) {
@@ -214,7 +224,7 @@ public class GemManager implements Dumpable {
             l.warning("You can try to turn up \"gemCreationAttempts\" in the config to fix this issue.");
             return null;
         }
-        return generateItemStack(random, gcm.getGemFirstLoginLevel());
+        return generateItemStack(random, gemLvl);
     }
 
     /**

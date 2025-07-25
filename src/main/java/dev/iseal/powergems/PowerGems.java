@@ -1,5 +1,6 @@
 package dev.iseal.powergems;
 
+import de.mcmdev.gemsmp.GemExchangeItem;
 import dev.iseal.ExtraKryoCodecs.Enums.SerializersEnums.AnalyticsAPI.AnalyticsSerializers;
 import dev.iseal.ExtraKryoCodecs.Holders.AnalyticsAPI.PluginVersionInfo;
 import dev.iseal.powergems.commands.*;
@@ -200,6 +201,9 @@ public class PowerGems extends JavaPlugin {
 
         }
         log.info(I18N.translate("INITIALIZED_PLUGIN"));
+
+        // GemSMP Fork stuff
+        new GemExchangeItem().init();
     }
 
     @Override

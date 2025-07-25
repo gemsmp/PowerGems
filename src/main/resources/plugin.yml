@@ -33,6 +33,9 @@ commands:
     usage: /pgDebug
     aliases: [pgd, pgdb]
     permission: powergems.debug
+# GemSMP commands
+  getgemexchangeitem:
+    permission: powergems.getgemexchangeitem
 permissions:
     powergems.movegems:
       description: Permission to move gems
