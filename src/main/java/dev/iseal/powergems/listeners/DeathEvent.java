@@ -21,15 +21,15 @@ public class DeathEvent implements Listener {
     private final NamespacedKeyManager nkm = SingletonManager.getInstance().namespacedKeyManager;
 
     @EventHandler
-    public void onDeath(PlayerDeathEvent e) {
+    public void onDeath(final PlayerDeathEvent e) {
         if (!generalConfigManager.doKeepGemsOnDeath())
             return;
         final List<ItemStack> toKeep = new ArrayList<>();
 
-        for (ItemStack item : e.getDrops()) {
+        for (final ItemStack item : e.getDrops()) {
             if (item.hasItemMeta()) {
-                ItemMeta meta = item.getItemMeta();
-                PersistentDataContainer dataContainer = meta.getPersistentDataContainer();
+                final ItemMeta meta = item.getItemMeta();
+                final PersistentDataContainer dataContainer = meta.getPersistentDataContainer();
                 if (dataContainer.has(nkm.getKey("is_power_gem"), PersistentDataType.BOOLEAN)) {
                     toKeep.add(item);
                 }
@@ -42,13 +42,13 @@ public class DeathEvent implements Listener {
     }
 
     @EventHandler
-    public void onPlayerRespawn(PlayerRespawnEvent e) {
+    public void onPlayerRespawn(final PlayerRespawnEvent e) {
         final List<ItemStack> toRestore = keepItems.get(e.getPlayer().getUniqueId());
         if (toRestore != null) {
             if (generalConfigManager.doGemDecay()) {
-                for (ItemStack item : toRestore) {
-                    PersistentDataContainer pdc = item.getItemMeta().getPersistentDataContainer();
-                    String power = pdc.get(nkm.getKey("gem_power"), PersistentDataType.STRING);
+                for (final ItemStack item : toRestore) {
+                    final PersistentDataContainer pdc = item.getItemMeta().getPersistentDataContainer();
+                    final String power = pdc.get(nkm.getKey("gem_power"), PersistentDataType.STRING);
                     if (pdc.get(nkm.getKey("gem_level"), PersistentDataType.INTEGER) > 1) {
                         e.getPlayer().getInventory().addItem(SingletonManager.getInstance().gemManager.createGem(power,
                                 pdc.get(nkm.getKey("gem_level"), PersistentDataType.INTEGER) - 1));
@@ -56,6 +56,8 @@ public class DeathEvent implements Listener {
                         e.getPlayer().getInventory().addItem(SingletonManager.getInstance().gemManager.createGem(power, 1));
                     }
                 }
+            } else if (generalConfigManager.getGiveRandomGemOnDeath()) {
+                e.getPlayer().getInventory().addItem(SingletonManager.getInstance().gemManager.createGem());
             } else {
                 e.getPlayer().getInventory().addItem(toRestore.toArray(new ItemStack[0]));
             }

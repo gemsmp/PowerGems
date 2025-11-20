@@ -41,6 +41,7 @@ public class GeneralConfigManager extends AbstractConfigManager {
         file.setDefault("gemCreationAttempts", 10);
         file.setDefault("gemsHaveDescriptions", true);
         file.setDefault("giveGemOnFirstLogin", true);
+        file.setDefault("giveRandomGemOnDeath", true);
         file.setDefault("gemFirstLoginLevel", 1);
         file.setDefault("unlockNewAbilitiesOnLevelX", 3);
         file.setDefault("giveGemPermanentEffectOnLevelX", true);
@@ -62,7 +63,7 @@ public class GeneralConfigManager extends AbstractConfigManager {
     }
 
     public static String generateAnalyticsId() {
-        int number = ThreadLocalRandom.current().nextInt(0, 1_000_000_000);
+        final int number = ThreadLocalRandom.current().nextInt(0, 1_000_000_000);
         return String.format("AA-%09d", number);
     }
 
@@ -90,10 +91,10 @@ public class GeneralConfigManager extends AbstractConfigManager {
         return file.getBoolean("attemptFixOldGems");
     }
 
-    public boolean isBlockedReplacingBlock(Block block) {
-        List<String> blocks = file.getStringList("blockedReplacingBlocks");
-        for (String mat : blocks) {
-            Material material = Material.valueOf(mat);
+    public boolean isBlockedReplacingBlock(final Block block) {
+        final List<String> blocks = file.getStringList("blockedReplacingBlocks");
+        for (final String mat : blocks) {
+            final Material material = Material.valueOf(mat);
             if (block.getType().equals(material)) {
                 return true;
             }
@@ -167,6 +168,10 @@ public class GeneralConfigManager extends AbstractConfigManager {
 
     public boolean getGiveGemOnFirstLogin() {
         return file.getBoolean("giveGemOnFirstLogin");
+    }
+
+    public boolean getGiveRandomGemOnDeath() {
+        return file.getBoolean("giveRandomGemOnDeath");
     }
 
     public int getGemFirstLoginLevel() {
